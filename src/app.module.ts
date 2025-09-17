@@ -6,6 +6,7 @@ import { TweetModule } from './tweet/tweet.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entity';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { User } from './user/user.entity';
           }
         )
       }
-    )],
+    ),
+    ProfileModule],
   controllers: [AppController],
   providers: [AppService],
 })
