@@ -17,12 +17,18 @@ export class UserService {
     ) { }
 
     public async getUsers(){
-        return (await this.userRepository.find()).reverse();
+        return (await this.userRepository.find(
+        //     {
+        //     relations:{
+        //         profile: true
+        //     }
+        // }
+    )).reverse();
     }
 
     public async createUser(userDto: CreateUserDto) {
         //use cascading instead
-        
+
         // // Create a profile & save
         // let profile = this.profileRepository.create(userDto.profile ?? {});
         // await this.profileRepository.save(profile);
