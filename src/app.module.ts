@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { TweetModule } from './tweet/tweet.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './user/user.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         useFactory: ()=>(
           {
             type: 'postgres',
-            entities: [],
+            entities: [
+              User
+            ],
             synchronize: true,
             host: 'localhost',
             port: 5432,

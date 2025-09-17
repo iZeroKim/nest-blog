@@ -1,27 +1,44 @@
 import { IsBoolean, IsEmail, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateUserDto {
-    @IsNumber()
-    id: number;
+
 
     @IsString(
         {
-            message: 'Name must be a string'
+            message: 'First Name must be a string'
         }
     )
     @IsNotEmpty(
         {
-            message: 'Name cannot be empty'
+            message: 'First Name cannot be empty'
         }
     )
     @MinLength(3,
         {
-            message: 'Name must be at least 3 characters long'
+            message: 'First Name must be at least 3 characters long'
         }
     )
-    name: string;
+    firstName: string;
+
+    @IsString(
+        {
+            message: 'Last Name must be a string'
+        }
+    )
+    @IsNotEmpty(
+        {
+            message: 'Last Name cannot be empty'
+        }
+    )
+    @MinLength(3,
+        {
+            message: 'Last Name must be at least 3 characters long'
+        }
+    )
+    lastName: string;
 
     @IsEmail()
+    @IsNotEmpty()
     email: string;
 
     @IsString(
@@ -37,12 +54,7 @@ export class CreateUserDto {
     )
     gender: string;
 
-    @IsBoolean(
-        {
-            message: 'IsMarried must be a boolean'
-        }
-    )
-    isMarried: boolean;
+
     @IsString({
         message: 'Password must be a string'
     })
@@ -51,5 +63,6 @@ export class CreateUserDto {
             message: 'Password cannot be empty'
         }
     )
+    @MinLength(8)
     password: string;
 }

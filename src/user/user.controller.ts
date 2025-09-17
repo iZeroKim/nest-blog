@@ -47,29 +47,29 @@ export class UserController {
         return this.userService.getUsersByGender(gender);
     }
 
-    @Post()
-    createUser(
-        @Body() user: CreateUserDto
-    ): String {
-        console.log(user);
-        console.log(this.userService);
-        this.userService.createUser(user);
-        return 'A new user has been created ' + user.name;
-    }
+    // @Post()
+    // createUser(
+    //     @Body() user: CreateUserDto
+    // ): String {
+    //     console.log(user);
+    //     console.log(this.userService);
+    //     this.userService.createUser(user);
+    //     return 'A new user has been created ' + user.name;
+    // }
 
-    @Patch()
-    updateUser(
-        @Body() user: UpdateUserDto
-    ): string {
-        console.log(user);
-        this.userService.updateUser(user.id ?? 0, {
-            id: user.id ??0,
-            name: user.name ?? '',
-            email: user.email ?? '',
-            gender: user.gender ?? '',
-            isMarried: user.isMarried ?? false,
-            password:user.password ?? ''
-        });
-        return 'User updated successfully with id ' + user.id;
-    }
+    // @Patch()
+    // updateUser(
+    //     @Body() user: UpdateUserDto
+    // ): string {
+    //     console.log(user);
+    //     this.userService.updateUser( 0, {
+    //         id: 0,
+    //         name: user.name ?? '',
+    //         email: user.email ?? '',
+    //         gender: user.gender ?? '',
+    //         isMarried: user.isMarried ?? false,
+    //         password:user.password ?? ''
+    //     });
+    //     return 'User updated successfully with id ' + user.id;
+    // }
 }
