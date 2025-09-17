@@ -32,7 +32,9 @@ export class User {
 
 
     
-    @OneToOne(()=>Profile)
+    @OneToOne(()=>Profile, {
+        cascade: ['insert', 'remove']
+    })
     @JoinColumn()
     profile?: Profile;
 

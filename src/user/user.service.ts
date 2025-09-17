@@ -21,14 +21,18 @@ export class UserService {
     }
 
     public async createUser(userDto: CreateUserDto) {
-        // Create a profile & save
-        let profile = this.profileRepository.create(userDto.profile ?? {});
-        await this.profileRepository.save(profile);
+        //use cascading instead
+        
+        // // Create a profile & save
+        // let profile = this.profileRepository.create(userDto.profile ?? {});
+        // await this.profileRepository.save(profile);
+
         // Create user object 
+
+        userDto.profile = userDto.profile ?? {};
         let user = this.userRepository.create(userDto);
 
-        // set profile 
-        user.profile = profile;
+       
         // Save user object
         return await this.userRepository.save(user);
 
