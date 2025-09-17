@@ -6,9 +6,5 @@ import { LoginDto } from './dtos/login.dto';
 export class AuthController {
     constructor(private readonly authService: AuthService){}
 
-    @Post()
-    login( @Body() credentials: LoginDto): string{
-        console.log(credentials.email + ' ' + credentials.password);
-        return this.authService.login(credentials.email, credentials.password);
-    }
+    
 }

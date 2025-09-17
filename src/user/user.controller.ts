@@ -5,13 +5,6 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 
 
-type User = {
-    id: number,
-    name: string,
-    email: string,
-    gender: string,
-    isMarried: boolean
-}
 
 @Controller('users')
 export class UserController {
@@ -20,56 +13,17 @@ export class UserController {
     ) { }
 
     @Get()
-    getUsers(
-        @Query('isMarried', new DefaultValuePipe(false), ParseBoolPipe)
-        isMarried: boolean,
-        @Query('gender', new DefaultValuePipe('female'))
-        gender: string,
-    ) {
-        console.log(isMarried);
-        console.log(gender);
-
-        if (gender && isMarried) {
-            return this.userService.getUsersByGenderAndMarried(gender, isMarried);
-        }
-        return this.userService.getAllUsers();
+    getUsers(){
+        return this.userService.getUsers();
     }
 
-    @Get(':id')
-    getUserById(@Param('id', ParseIntPipe) id: number): User | undefined {
-        
-        return this.userService.getUserById(id);
+
+    @Post()
+    createUser(@Body() user: CreateUserDto){
+        console.log(user);
+        return this.userService.createUser(user);
+
     }
 
-    @Get('/gender/:gender')
-    getUsersByGender(@Param('gender') gender: string): User[] {
-        
-        return this.userService.getUsersByGender(gender);
-    }
-
-    // @Post()
-    // createUser(
-    //     @Body() user: CreateUserDto
-    // ): String {
-    //     console.log(user);
-    //     console.log(this.userService);
-    //     this.userService.createUser(user);
-    //     return 'A new user has been created ' + user.name;
-    // }
-
-    // @Patch()
-    // updateUser(
-    //     @Body() user: UpdateUserDto
-    // ): string {
-    //     console.log(user);
-    //     this.userService.updateUser( 0, {
-    //         id: 0,
-    //         name: user.name ?? '',
-    //         email: user.email ?? '',
-    //         gender: user.gender ?? '',
-    //         isMarried: user.isMarried ?? false,
-    //         password:user.password ?? ''
-    //     });
-    //     return 'User updated successfully with id ' + user.id;
-    // }
+   
 }

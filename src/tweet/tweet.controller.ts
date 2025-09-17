@@ -5,12 +5,7 @@ import { TweetService } from './tweet.service';
 export class TweetController {
 
     constructor(private readonly tweetService: TweetService){}
-    @Get(':userid')
-    public getTweet(
-        @Param('userid', ParseIntPipe) userId: number
-    ): {text: String, userName: String | undefined, date: Date}[] {
-        return this.tweetService.getTweetsByUserId(userId);
-    }
+   
 
 
     @Post()

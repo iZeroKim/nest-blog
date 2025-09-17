@@ -1,71 +1,36 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
-import { AuthService } from "src/auth/auth.service";
+import { Injectable } from "@nestjs/common";
+import { Repository } from "typeorm";
+import { User } from "./user.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { CreateUserDto } from "./dtos/create-user.dto";
 
-export type User = {
-    id: number,
-    name:string,
-    email: string,
-    gender: string,
-    isMarried: boolean,
-    password: string
-}
 
 
 @Injectable()
 export class UserService {
     constructor(
-        @Inject(forwardRef(()=> AuthService))
-        private readonly authService: AuthService
-    ){}
-    users: User[] = [
-        {id: 1, name: 'John Doe', email: 'john@gmail.com', gender: 'male', isMarried: false, password: 'test@123'},
-        {id: 2, name: 'Jane Doe', email: 'jane@gmail.com', gender: 'female', isMarried: true, password: 'test@123'},
-        {id: 3, name: 'Jim Doe', email: 'jim@gmail.com', gender: 'male', isMarried: false, password: 'test@123'},
-        {id: 4, name: 'Jill Doe', email: 'jill@gmail.com', gender: 'female', isMarried: true, password: 'test@123'},
-        {id: 5, name: 'Jack Doe', email: 'jack@gmail.com', gender: 'male', isMarried: false, password: 'test@123'},
-    ];
+        @InjectRepository(User)
+        private userRepository: Repository<User>
+    ) { }
 
-    getUsersByMarried(isMarried: boolean): User[] {
-        return this.users.filter(user => user.isMarried === isMarried);
+    public async getUsers(){
+        return (await this.userRepository.find()).reverse();
     }
 
-    getUsersByGenderAndMarried(gender: string, isMarried: boolean): User[] {
-        // console.log(gender + ' passed ' + isMarried);
-       
-        return this.users.filter(user => {
-            console.log('passed ' + gender + ' ' + isMarried + ' ' + user.gender + ' ' + user.isMarried);
-            
-            return user.gender == gender && user.isMarried === isMarried;
-
-
+    public async createUser(userDto: CreateUserDto) {
+        // check if user with email exists
+        const user = await this.userRepository.findOne({
+            where: { email: userDto.email }
+        })
+        // handle error
+        if (user) {
+            return 'User with given email exists';
         }
-);
+
+        // create user
+        let newUser = this.userRepository.create(userDto);
+        return await this.userRepository.save(newUser);
+
     }
 
-    getAllUsers() {
-        if(this.authService.isAuthenticated)
-        return this.users.reverse();
-
-        return 'You are not authenticated';
-    }
-
-    getUserById(id: number): User | undefined {
-        return this.users.find(user => user.id == id);
-    }
-
-    createUser(user: User): User {
-        this.users.push(user);
-        return user;
-    }
-
-    updateUser(id: number, user: User): User {
-        const index = this.users.findIndex(user => user.id == id);
-        this.users[index] = user;
-        return user;
-    }
-
-    getUsersByGender(gender: string): User[] {
-        return this.users.filter(user => user.gender == gender);
-    }
-    
 }
