@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entity';
 import { ProfileModule } from './profile/profile.module';
+import { Profile } from './profile/profile.entity';
 
 @Module({
   imports: [
@@ -20,10 +21,11 @@ import { ProfileModule } from './profile/profile.module';
         useFactory: ()=>(
           {
             type: 'postgres',
-            entities: [
-              User
-            ],
+            // entities: [
+            //   User, Profile
+            // ],
             synchronize: true,
+            autoLoadEntities: true,
             host: 'localhost',
             port: 5432,
             username: 'postgres',

@@ -2,7 +2,6 @@ import { Body, Controller, DefaultValuePipe, Get, Param, ParseBoolPipe, ParseInt
 import { UserService } from './user.service';
 import { error } from 'console';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { UpdateUserDto } from './dtos/update-user.dto';
 
 
 
