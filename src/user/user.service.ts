@@ -1,22 +1,28 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { AuthService } from "src/auth/auth.service";
 
 export type User = {
     id: number,
     name:string,
     email: string,
     gender: string,
-    isMarried: boolean
+    isMarried: boolean,
+    password: string
 }
 
 
 @Injectable()
 export class UserService {
+    constructor(
+        @Inject(forwardRef(()=> AuthService))
+        private readonly authService: AuthService
+    ){}
     users: User[] = [
-        {id: 1, name: 'John Doe', email: 'john@gmail.com', gender: 'male', isMarried: false},
-        {id: 2, name: 'Jane Doe', email: 'jane@gmail.com', gender: 'female', isMarried: true},
-        {id: 3, name: 'Jim Doe', email: 'jim@gmail.com', gender: 'male', isMarried: false},
-        {id: 4, name: 'Jill Doe', email: 'jill@gmail.com', gender: 'female', isMarried: true},
-        {id: 5, name: 'Jack Doe', email: 'jack@gmail.com', gender: 'male', isMarried: false},
+        {id: 1, name: 'John Doe', email: 'john@gmail.com', gender: 'male', isMarried: false, password: 'test@123'},
+        {id: 2, name: 'Jane Doe', email: 'jane@gmail.com', gender: 'female', isMarried: true, password: 'test@123'},
+        {id: 3, name: 'Jim Doe', email: 'jim@gmail.com', gender: 'male', isMarried: false, password: 'test@123'},
+        {id: 4, name: 'Jill Doe', email: 'jill@gmail.com', gender: 'female', isMarried: true, password: 'test@123'},
+        {id: 5, name: 'Jack Doe', email: 'jack@gmail.com', gender: 'male', isMarried: false, password: 'test@123'},
     ];
 
     getUsersByMarried(isMarried: boolean): User[] {
@@ -36,8 +42,11 @@ export class UserService {
 );
     }
 
-    getAllUsers(): User[] {
-        return this.users;
+    getAllUsers() {
+        if(this.authService.isAuthenticated)
+        return this.users.reverse();
+
+        return 'You are not authenticated';
     }
 
     getUserById(id: number): User | undefined {

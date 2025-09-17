@@ -25,14 +25,14 @@ export class UserController {
         isMarried: boolean,
         @Query('gender', new DefaultValuePipe('female'))
         gender: string,
-    ): User[] {
+    ) {
         console.log(isMarried);
         console.log(gender);
 
         if (gender && isMarried) {
             return this.userService.getUsersByGenderAndMarried(gender, isMarried);
         }
-        return this.userService.getAllUsers().reverse();
+        return this.userService.getAllUsers();
     }
 
     @Get(':id')
@@ -62,12 +62,13 @@ export class UserController {
         @Body() user: UpdateUserDto
     ): string {
         console.log(user);
-        this.userService.updateUser(user.id ??0, {
+        this.userService.updateUser(user.id ?? 0, {
             id: user.id ??0,
             name: user.name ?? '',
             email: user.email ?? '',
             gender: user.gender ?? '',
-            isMarried: user.isMarried ?? false
+            isMarried: user.isMarried ?? false,
+            password:user.password ?? ''
         });
         return 'User updated successfully with id ' + user.id;
     }
