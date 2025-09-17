@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/user.entity';
 import { ProfileModule } from './profile/profile.module';
 import { Profile } from './profile/profile.entity';
+import { PaymentInfoModule } from './payment-info/payment-info.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { Profile } from './profile/profile.entity';
         )
       }
     ),
-    ProfileModule],
+    ProfileModule,
+    PaymentInfoModule],
   controllers: [AppController],
   providers: [AppService],
 })
