@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsEmail, IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateUserDto {
 
@@ -18,6 +18,11 @@ export class CreateUserDto {
             message: 'First Name must be at least 3 characters long'
         }
     )
+    @MaxLength(100,
+        {
+            message: 'Last Name must be at most 100 characters long'
+        }
+    )
     firstName: string;
 
     @IsString(
@@ -35,10 +40,16 @@ export class CreateUserDto {
             message: 'Last Name must be at least 3 characters long'
         }
     )
+    @MaxLength(100,
+        {
+            message: 'Last Name must be at most 100 characters long'
+        }
+    )
     lastName: string;
 
     @IsEmail()
     @IsNotEmpty()
+    @MaxLength(100)
     email: string;
 
     @IsString(
@@ -52,6 +63,7 @@ export class CreateUserDto {
             message: 'Gender must be either male or female'
         }
     )
+    @MaxLength(10)
     gender: string;
 
 
@@ -64,5 +76,6 @@ export class CreateUserDto {
         }
     )
     @MinLength(8)
+    @MaxLength(100)
     password: string;
 }
