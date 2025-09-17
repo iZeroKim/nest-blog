@@ -1,13 +1,15 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { TweetService } from './tweet.service';
 
-@Controller('tweet')
+@Controller('tweets')
 export class TweetController {
 
     constructor(private readonly tweetService: TweetService){}
-    @Get()
-    getTweet(): string {
-        return 'User tweets';
+    @Get(':userid')
+    public getTweet(
+        @Param('userid', ParseIntPipe) userId: number
+    ): {text: String, userName: String | undefined, date: Date}[] {
+        return this.tweetService.getTweetsByUserId(userId);
     }
 
 
