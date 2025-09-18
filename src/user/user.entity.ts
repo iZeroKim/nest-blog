@@ -1,3 +1,4 @@
+import { PaymentInfo } from "src/payment-info/payment-info.entity";
 import { Profile } from "src/profile/profile.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -38,6 +39,13 @@ export class User {
     })
     @JoinColumn()
     profile?: Profile;
+
+    @OneToOne(()=> PaymentInfo, {
+        cascade:['insert', 'remove'],
+        eager: true
+    })
+    @JoinColumn()
+    paymentInfo?: PaymentInfo
 
     @CreateDateColumn()
     createdAt: Date;

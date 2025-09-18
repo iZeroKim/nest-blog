@@ -17,6 +17,9 @@ export class CreateProfileDto {
     @IsString()
     @IsOptional()
     @MaxLength(10)
+    @IsIn(['male', 'female'], {
+        message: 'Gender has to be either male or female'
+    })
     gender?: string;
 
 
