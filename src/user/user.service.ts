@@ -13,20 +13,20 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
-        // @InjectRepository(Profile)
-        // private profileRepository: Repository<Profile>,
-        // @InjectRepository(PaymentInfo)
-        // private paymentInfoRepository: Repository<PaymentInfo>,
+        @InjectRepository(Profile)
+        private profileRepository: Repository<Profile>,
+        @InjectRepository(PaymentInfo)
+        private paymentInfoRepository: Repository<PaymentInfo>,
     ) { }
 
-    public async getUsers(){
+    public async getUsers() {
         return (await this.userRepository.find(
-        //     {
-        //     relations:{
-        //         profile: true
-        //     }
-        // }
-    )).reverse();
+            //     {
+            //     relations:{
+            //         profile: true
+            //     }
+            // }
+        )).reverse();
     }
 
     public async createUser(userDto: CreateUserDto) {
@@ -40,12 +40,43 @@ export class UserService {
 
         userDto.profile = userDto.profile ?? {};
         userDto.paymentInfo = userDto.paymentInfo ?? {};
-        
+
         let user = this.userRepository.create(userDto);
 
-       
+
         // Save user object
         return await this.userRepository.save(user);
+
+    }
+
+    public async deleterUser(id: number) {
+        //find user by id
+        const user = await this.userRepository.findOneBy({
+            id: id
+        });
+
+        //find related profile
+        // if(user?.profile)
+        const relatedProfile = await this.profileRepository.findOneBy({
+            id: user?.profile?.id
+        });
+
+        const relatedAccount = await this.paymentInfoRepository.findOneBy({ id });
+
+
+
+        //delete user 
+        if (user?.id)
+            this.userRepository.delete(user?.id);
+        if (relatedProfile?.id)
+            this.profileRepository.delete(relatedProfile?.id);
+
+        if (relatedAccount?.id)
+            this.paymentInfoRepository.delete(relatedAccount?.id);
+
+        return {
+            deleted: true
+        }
 
     }
 

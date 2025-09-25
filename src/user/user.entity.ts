@@ -33,7 +33,7 @@ export class User {
 
 
     
-    @OneToOne(()=>Profile, {
+    @OneToOne(()=>Profile, (profile)=> profile.user, {
         cascade: ['insert', 'remove'],
         eager: true
     })

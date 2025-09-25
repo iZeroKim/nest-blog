@@ -21,14 +21,8 @@ export class CreateUserDto {
 
 
 
-    @IsString({
-        message: 'Password must be a string'
-    })
-    @IsNotEmpty(
-        {
-            message: 'Password cannot be empty'
-        }
-    )
+    @IsString({ message: 'Password must be a string'})
+    @IsNotEmpty({message: 'Password cannot be empty'})
     @MinLength(8)
     @MaxLength(100)
     password: string;

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { User } from "src/user/user.entity";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne } from "typeorm";
 
 @Entity()
 export class Profile{
@@ -53,4 +54,7 @@ export class Profile{
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @OneToOne(()=>User, (user)=> user.profile)
+    user: User;
 }

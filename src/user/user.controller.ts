@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Get, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Put, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Put, Query, ValidationPipe } from '@nestjs/common';
 import { UserService } from './user.service';
 import { error } from 'console';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -21,6 +21,12 @@ export class UserController {
     createUser(@Body() user: CreateUserDto){
         console.log(user);
         return this.userService.createUser(user);
+
+    }
+
+    @Delete(':id')
+    async deleteUser( @Param('id', ParseIntPipe) id: number ){
+        return await this.userService.deleterUser(id);
 
     }
 
